@@ -1,12 +1,8 @@
-import CameraHandler from "components/CameraHandler";
-import IconLink from "components/IconLink";
 import Page from "components/layouts/Page";
-import Section from "components/layouts/Section";
-import Wrapper from "components/layouts/Wrapper";
 import Tracking from "components/Tracking";
 import { useMqttState, useSubscription } from "mqtt-react-hooks";
 import type { NextPage } from "next";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 
 const Home: NextPage = () => {
