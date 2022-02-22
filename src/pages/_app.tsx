@@ -2,9 +2,6 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { Connector } from "mqtt-react-hooks";
-import Script from "next/script";
-import { useEffect, useState } from "react";
-import { div } from "@tensorflow/tfjs";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

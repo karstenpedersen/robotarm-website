@@ -11,6 +11,7 @@ import "@tensorflow/tfjs-backend-webgl";
 import "@tensorflow/tfjs-backend-cpu";
 import * as tf from "@tensorflow/tfjs";
 import Webcam from "react-webcam";
+import { useMqttState, useSubscription } from "mqtt-react-hooks";
 
 interface Props {
   webcamRef: any;
@@ -21,14 +22,17 @@ interface Props {
 const Tracking: FunctionComponent<Props> = (props) => {
   const { webcamRef, canvasRef, scale = 5 } = props;
 
-  const [trackObjects, setTrackObjects] = useState(false);
+  const { client } = useMqttState();
+  const { message } = useSubscription(["test"]);
+
+  //useEffect(() => {}, [message]);
 
   const runCoco = async () => {
     const net = await cocossd.load();
 
     setInterval(() => {
       detect(net);
-    }, 10);
+    }, 60);
   };
 
   const detect = async (net: any) => {
@@ -61,17 +65,25 @@ const Tracking: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      <h2>Tracking Settings</h2>
-      <label htmlFor="">Track objects</label>
-      <input
-        type="checkbox"
-        name="track objects"
-        id="track-objects"
-        checked={trackObjects}
-        onClick={() => {
-          setTrackObjects(!trackObjects);
-        }}
-      />
+      {message?.topic !== "" ||
+        (message?.topic && (
+          <>
+            <h2 className="subtitle">Current Data</h2>
+            <div className="flex items-center gap-1">
+              <p className="subtitle">Topic: </p>
+              <p>{message?.topic}</p>
+              <p className="subtitle">Message: </p>
+              <p>{message?.message}</p>
+            </div>
+          </>
+        ))}
+
+      <h2 className="subtitle mb-1">Log</h2>
+      <textarea
+        name="log"
+        id="log"
+        className="h-20 min-h-[5rem] w-full rounded bg-dark-700 p-1 text-primary"
+      ></textarea>
     </div>
   );
 };
@@ -89,7 +101,6 @@ export const drawRect = (detections: any, ctx: any, scale: number) => {
     height = height / scale;
 
     // Set styling
-    const color = Math.floor(Math.random() * 16777215).toString(16);
     ctx.strokeStyle = "#b95d94";
     ctx.font = "18px Arial";
 
@@ -103,29 +114,7 @@ export const drawRect = (detections: any, ctx: any, scale: number) => {
 };
 
 /* 
-        <Section sectionId="#log">
-        <h2 className="font-bold">MQTT log</h2>
-        <textarea
-          name="log"
-          id="log"
-          className="h-[200px] w-full resize-none border-2"
-        ></textarea>
-      </Section>
-
-      <Section sectionId="#mqtt">
-        <button
-          className="hover: rounded bg-blue-500 px-5 py-2 font-bold text-white"
-          onClick={() => {
-            client?.publish("test", "MESSAGE HERE");
-          }}
-        >
-          Click me
-        </button>
-
-        <p>
-          Topic: {message?.topic} - message: {message?.message}
-        </p>
-      </Section>
+client?.publish("test", "MESSAGE HERE");
 */
 
 export default Tracking;

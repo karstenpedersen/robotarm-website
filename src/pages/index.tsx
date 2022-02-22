@@ -1,24 +1,27 @@
+import { div } from "@tensorflow/tfjs";
 import Container from "components/Container";
 import Page from "components/layouts/Page";
 import Splitter from "components/Splitter";
 import Tracking from "components/Tracking";
-import { useMqttState, useSubscription } from "mqtt-react-hooks";
+import { useMqttState } from "mqtt-react-hooks";
 import type { NextPage } from "next";
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 
 const Home: NextPage = () => {
-  const { client } = useMqttState();
-  const { message } = useSubscription(["test"]);
-
-  useEffect(() => {}, [message]);
+  const { connectionStatus } = useMqttState();
 
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
   return (
     <Page title="Robot arm">
-      <Container title="Video">
+      <Container
+        title="Video"
+        rightElement={
+          <p className="lowercase text-primary">{connectionStatus}</p>
+        }
+      >
         <Splitter>
           <div className="relative">
             <Webcam
@@ -51,12 +54,7 @@ const Home: NextPage = () => {
 
       <section id="video-settings">
         <Container title="MQTT Server">
-          <p className="mb-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet modi
-            soluta, qui debitis ex aspernatur labore temporibus explicabo illo
-            iste.
-          </p>
-          <h2 className="subtitle">Data</h2>
+          <p className="mb-2">Latest updates</p>
           <Tracking webcamRef={webcamRef} canvasRef={canvasRef} />
         </Container>
       </section>
