@@ -31,8 +31,8 @@ module.exports = {
       },
       gridTemplateColumns: {
         // Simple 8 row grid
-        'page': '300px auto',
-        'page-sm': '3.5rem auto',
+        'page': '250px auto',
+        'page-sm': '4rem auto',
       }
     },
   },

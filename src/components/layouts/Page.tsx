@@ -20,13 +20,15 @@ const Page: FunctionComponent<Props> = (props) => {
       </Head>
 
       <div className="grid h-screen grid-cols-1 grid-rows-page sm:grid-cols-page-sm md:grid-cols-page">
-        <div className="col-span-2">
+        <div className="z-30 col-span-2 shadow-md">
           <Header />
         </div>
-        <div className="hidden h-full w-full sm:block">
+        <div className="z-40 hidden h-full w-full shadow-md sm:block">
           <Sidebar />
         </div>
-        <div className="overflow-y-auto overflow-x-hidden bg-gray-100 p-2"></div>
+        <div className="overflow-y-auto overflow-x-hidden bg-dark-700 p-3">
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -14,12 +14,12 @@ const Header = () => {
   //fixed top-0 left-0
   return (
     <div>
-      <header className="bg-dark-900 z-30 flex h-[6vh] min-h-[6vh] w-full items-center justify-between px-3 text-primary shadow-lg xl:shadow-none">
+      <header className="z-30 flex h-[6vh] min-h-[6vh] w-full items-center justify-between bg-dark-900 px-3 text-primary shadow-lg xl:shadow-none">
         <div className="flex h-full items-center justify-between text-xl font-bold uppercase">
           <Link href="/">
             <a className="flex items-center gap-2">
               <FaIcons.FaRobot className="text-4xl" />
-              <p className="text-2xl">Robot Arm</p>
+              <p className="header-title">Robot Arm</p>
             </a>
           </Link>
         </div>

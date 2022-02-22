@@ -9,11 +9,11 @@ interface Props {}
 // fixed  left-0
 const Sidebar: FunctionComponent<Props> = () => {
   return (
-    <section className="top-[6vh] z-20 h-full w-full bg-dark-800 shadow-md transition-width">
+    <section className="top-[6vh] z-20 h-full w-full bg-dark-800 transition-width">
       <Navigation
         className="flex h-full flex-col justify-between"
-        listClassName="flex flex-col gap-2 p-2"
-        lowerClassName="rounded-none px-4"
+        listClassName="flex flex-col gap-3 p-3"
+        lowerClassName="rounded-none px-4 py-3"
         sidebar={true}
       />
     </section>

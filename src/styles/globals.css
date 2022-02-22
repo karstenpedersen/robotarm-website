@@ -7,3 +7,15 @@
 html {
   scroll-behavior: smooth;
 }
+
+.title {
+  @apply text-lg font-bold uppercase text-primary;
+}
+
+.header-title {
+  @apply text-2xl font-bold uppercase text-primary;
+}
+
+.subtitle {
+  @apply text-dark-700 underline;
+}
