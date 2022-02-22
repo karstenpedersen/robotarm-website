@@ -11,7 +11,7 @@ interface Props {
 
 const Page: FunctionComponent<Props> = (props) => {
   const { children, title = "TITLE" } = props;
-  // mt-[6vh] sm:ml-14 md:ml-56
+
   return (
     <div className="">
       <Head>
