@@ -32,9 +32,8 @@ const Home: NextPage = () => {
               height="1080"
               className="relative w-full resize"
             />
-            <p className="absolute top-1 left-2 font-bold italic text-dark-900">
-              Video Input
-            </p>
+
+            <canvas ref={canvasRef} className="absolute top-0 left-0 w-full" />
           </div>
 
           <div id="tracking">
@@ -43,11 +42,6 @@ const Home: NextPage = () => {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum,
               aspernatur!
             </p>
-
-            <canvas
-              ref={canvasRef}
-              className="w-full border-2 border-dark-700"
-            />
           </div>
         </Splitter>
       </Container>
