@@ -22,17 +22,15 @@ interface Props {
 const Tracking: FunctionComponent<Props> = (props) => {
   const { webcamRef, canvasRef, scale = 5 } = props;
 
-  const { client } = useMqttState();
-  const { message } = useSubscription(["test"]);
-
-  //useEffect(() => {}, [message]);
+  const { connectionStatus, client } = useMqttState();
+  //const { message } = useSubscription(["/test"]);
 
   const runCoco = async () => {
     const net = await cocossd.load();
 
     setInterval(() => {
       detect(net);
-    }, 60);
+    }, 500);
   };
 
   const detect = async (net: any) => {
@@ -56,6 +54,45 @@ const Tracking: FunctionComponent<Props> = (props) => {
       // Draw mesh
       const ctx = canvasRef.current.getContext("2d");
       drawRect(obj, ctx, scale);
+
+      // Locate person and send data
+      var foundPerson = false;
+      obj.forEach((prediction: any) => {
+        // Extract boxes and classes
+        const type = prediction["class"];
+        const [x, y, width, height] = prediction["bbox"];
+
+        if (!foundPerson && type === "person") {
+          var left = x;
+          var right = 1920 - x - width;
+          var top = y;
+          var bottom = 1080 - y - height;
+          var message =
+            '{"left": ' +
+            left +
+            ',"right": ' +
+            right +
+            ',"top": ' +
+            top +
+            ',"bottom": ' +
+            bottom +
+            ',"camWidth": ' +
+            1920 +
+            ',"camHeight": ' +
+            1080 +
+            "}";
+
+          console.log(
+            "Connection: " + connectionStatus + ", Client: " + client
+          );
+          if (client) {
+            client.publish("/test", message);
+            console.log("Message: " + message);
+          }
+
+          foundPerson = true;
+        }
+      });
     }
   };
 
@@ -65,25 +102,12 @@ const Tracking: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      {message?.topic !== "" ||
-        (message?.topic && (
-          <>
-            <h2 className="subtitle">Current Data</h2>
-            <div className="flex items-center gap-1">
-              <p className="subtitle">Topic: </p>
-              <p>{message?.topic}</p>
-              <p className="subtitle">Message: </p>
-              <p>{message?.message}</p>
-            </div>
-          </>
-        ))}
-
       <h2 className="subtitle mb-1">Log</h2>
       <textarea
         name="log"
         id="log"
         className="h-20 min-h-[5rem] w-full rounded bg-dark-700 p-1 text-primary"
-      ></textarea>
+      />
     </div>
   );
 };
@@ -112,9 +136,5 @@ export const drawRect = (detections: any, ctx: any, scale: number) => {
     ctx.stroke();
   });
 };
-
-/* 
-client?.publish("test", "MESSAGE HERE");
-*/
 
 export default Tracking;

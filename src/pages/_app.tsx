@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         protocol: "mqtts",
         username: "euclillebaelt-broker",
         password: "Test1234",
+        keepalive: 60,
       }}
     >
       <ThemeProvider enableSystem={false} attribute="class">
