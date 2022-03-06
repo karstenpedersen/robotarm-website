@@ -23,14 +23,13 @@ const Tracking: FunctionComponent<Props> = (props) => {
   const { webcamRef, canvasRef, scale = 5 } = props;
 
   const { connectionStatus, client } = useMqttState();
-  //const { message } = useSubscription(["/test"]);
 
   const runCoco = async () => {
     const net = await cocossd.load();
 
     setInterval(() => {
       detect(net);
-    }, 500);
+    }, 60);
   };
 
   const detect = async (net: any) => {
@@ -82,9 +81,6 @@ const Tracking: FunctionComponent<Props> = (props) => {
             1080 +
             "}";
 
-          console.log(
-            "Connection: " + connectionStatus + ", Client: " + client
-          );
           if (client) {
             client.publish("/test", message);
             console.log("Message: " + message);
